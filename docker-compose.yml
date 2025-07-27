@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  eureka-server:
+    build:
+      context: ./eureka-server
+    image: eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    image: api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
+
+  user-service:
+    build:
+      context: ./user-service
+    image: user-service
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - eureka-server
+
+  order-service:
+    build:
+      context: ./order-service
+    image: order-service
+    container_name: order-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-server
+
+  auth-service:
+    build:
+      context: ./auth-service
+    image: auth-service
+    container_name: auth-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-server
+
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    ports:
+      - "9090:8080"     # Jenkins UI on http://localhost:9090
+      - "50000:50000"   # Optional: Jenkins agent port
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:
