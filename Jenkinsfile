@@ -6,8 +6,8 @@ pipeline {
     }
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
-        IMAGE_NAME = "yourdockerhubusername/${SERVICE}"
+        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials-id'
+        IMAGE_NAME = "andigalappa/${SERVICE}"
     }
 
     stages {
